@@ -1,128 +1,159 @@
 ---
 
-# SSL Anti-Spoofing
+# 🎙️ SSL Anti-Spoofing
 
-This repository implements a self-supervised learning (SSL) based anti-spoofing pipeline for audio. It has two main stages:
-
-* **Frontend (SSL feature extractors):** wavlm\_large, mae\_ast\_frame, npc\_960hr
-* **Backend (Classifier models):** AASIST, SLS, XLSR-Mamba
+A **Self-Supervised Learning (SSL)** based pipeline for **audio anti-spoofing detection**.
+This project extracts embeddings from powerful SSL models and classifies them into spoofed or bona fide speech.
 
 ---
 
-## Features
+## 📌 Overview
 
-<table>
-  <tr>
-    <th align="left">Classifier models</th>
-  </tr>
-  <tr>
-    <td><code>aasist</code> &nbsp;|&nbsp; <code>sls</code> &nbsp;|&nbsp; <code>xlsrmamba</code></td>
-  </tr>
-</table>
+This pipeline consists of two main stages:
 
-<br/>
+1. **Frontend – SSL Feature Extractors**
+   Pretrained audio encoders (from [S3PRL](https://github.com/s3prl/s3prl)) such as:
 
-<table>
-  <tr>
-    <th align="left">SSL feature extractors (ready-to-use presets)</th>
-  </tr>
-  <tr>
-  <td><code>apc</code> &nbsp;|&nbsp; <code>apc_360hr</code> &nbsp;|&nbsp; <code>apc_960hr</code> &nbsp;|&nbsp; <code>apc_local</code> &nbsp;|&nbsp; <code>apc_url</code> &nbsp;|&nbsp; <code>ast</code> &nbsp;|&nbsp; <code>audio_albert</code> &nbsp;|&nbsp; <code>audio_albert_960hr</code> &nbsp;|&nbsp; <code>audio_albert_local</code> &nbsp;|&nbsp; <code>audio_albert_logMelBase_T_share_AdamW_b32_1m_960hr_drop1</code> &nbsp;|&nbsp; <code>audio_albert_url</code> &nbsp;|&nbsp; <code>baseline</code> &nbsp;|&nbsp; <code>baseline_local</code> &nbsp;|&nbsp; <code>byol_a_1024</code> &nbsp;|&nbsp; <code>byol_a_2048</code> &nbsp;|&nbsp; <code>byol_a_512</code> &nbsp;|&nbsp; <code>byol_s_cvt</code> &nbsp;|&nbsp; <code>byol_s_default</code> &nbsp;|&nbsp; <code>byol_s_resnetish34</code> &nbsp;|&nbsp; <code>contentvec</code> &nbsp;|&nbsp; <code>contentvec_km100</code> &nbsp;|&nbsp; <code>contentvec_km500</code> &nbsp;|&nbsp; <code>cpc_local</code> &nbsp;|&nbsp; <code>cpc_url</code> &nbsp;|&nbsp; <code>customized_upstream</code> &nbsp;|&nbsp; <code>cvhubert</code> &nbsp;|&nbsp; <code>data2vec</code> &nbsp;|&nbsp; <code>data2vec_base_960</code> &nbsp;|&nbsp; <code>data2vec_custom</code> &nbsp;|&nbsp; <code>data2vec_large_ll60k</code> &nbsp;|&nbsp; <code>data2vec_local</code> &nbsp;|&nbsp; <code>data2vec_url</code> &nbsp;|&nbsp; <code>decoar</code> &nbsp;|&nbsp; <code>decoar2</code> &nbsp;|&nbsp; <code>decoar2_custom</code> &nbsp;|&nbsp; <code>decoar2_local</code> &nbsp;|&nbsp; <code>decoar2_url</code> &nbsp;|&nbsp; <code>decoar_custom</code> &nbsp;|&nbsp; <code>decoar_layers</code> &nbsp;|&nbsp; <code>decoar_layers_custom</code> &nbsp;|&nbsp; <code>decoar_layers_local</code> &nbsp;|&nbsp; <code>decoar_layers_url</code> &nbsp;|&nbsp; <code>decoar_local</code> &nbsp;|&nbsp; <code>decoar_url</code> &nbsp;|&nbsp; <code>discretebert</code> &nbsp;|&nbsp; <code>distilhubert</code> &nbsp;|&nbsp; <code>distilhubert_base</code> &nbsp;|&nbsp; <code>distiller_local</code> &nbsp;|&nbsp; <code>distiller_url</code> &nbsp;|&nbsp; <code>espnet_hubert_base_iter0</code> &nbsp;|&nbsp; <code>espnet_hubert_base_iter1</code> &nbsp;|&nbsp; <code>espnet_hubert_custom</code> &nbsp;|&nbsp; <code>espnet_hubert_large_gs_ll60k</code> &nbsp;|&nbsp; <code>espnet_hubert_local</code> &nbsp;|&nbsp; <code>fbank</code> &nbsp;|&nbsp; <code>fbank_no_cmvn</code> &nbsp;|&nbsp; <code>hf_hubert_custom</code> &nbsp;|&nbsp; <code>hf_wav2vec2_custom</code> &nbsp;|&nbsp; <code>hubert</code> &nbsp;|&nbsp; <code>hubert_base</code> &nbsp;|&nbsp; <code>hubert_base_robust_mgr</code> &nbsp;|&nbsp; <code>hubert_custom</code> &nbsp;|&nbsp; <code>hubert_large_ll60k</code> &nbsp;|&nbsp; <code>hubert_local</code> &nbsp;|&nbsp; <code>hubert_url</code> &nbsp;|&nbsp; <code>lighthubert</code> &nbsp;|&nbsp; <code>lighthubert_base</code> &nbsp;|&nbsp; <code>lighthubert_local</code> &nbsp;|&nbsp; <code>lighthubert_small</code> &nbsp;|&nbsp; <code>lighthubert_stage1</code> &nbsp;|&nbsp; <code>lighthubert_url</code> &nbsp;|&nbsp; <code>linear</code> &nbsp;|&nbsp; <code>mae_ast_frame</code> &nbsp;|&nbsp; <code>mae_ast_local</code> &nbsp;|&nbsp; <code>mae_ast_patch</code> &nbsp;|&nbsp; <code>mae_ast_url</code> &nbsp;|&nbsp; <code>mel</code> &nbsp;|&nbsp; <code>mfcc</code> &nbsp;|&nbsp; <code>mhubert_base_vp_en_es_fr_it3</code> &nbsp;|&nbsp; <code>mockingjay</code> &nbsp;|&nbsp; <code>mockingjay_100hr</code> &nbsp;|&nbsp; <code>mockingjay_960hr</code> &nbsp;|&nbsp; <code>mockingjay_local</code> &nbsp;|&nbsp; <code>mockingjay_logMelBase_T_AdamW_b32_1m_960hr</code> &nbsp;|&nbsp; <code>mockingjay_logMelBase_T_AdamW_b32_1m_960hr_drop1</code> &nbsp;|&nbsp; <code>mockingjay_logMelBase_T_AdamW_b32_1m_960hr_seq3k</code> &nbsp;|&nbsp; <code>mockingjay_logMelBase_T_AdamW_b32_200k_100hr</code> &nbsp;|&nbsp; <code>mockingjay_logMelLinearLarge_T_AdamW_b32_500k_360hr_drop1</code> &nbsp;|&nbsp; <code>mockingjay_origin</code> &nbsp;|&nbsp; <code>mockingjay_url</code> &nbsp;|&nbsp; <code>modified_cpc</code> &nbsp;|&nbsp; <code>mos_apc</code> &nbsp;|&nbsp; <code>mos_apc_local</code> &nbsp;|&nbsp; <code>mos_apc_url</code> &nbsp;|&nbsp; <code>mos_tera</code> &nbsp;|&nbsp; <code>mos_tera_local</code> &nbsp;|&nbsp; <code>mos_tera_url</code> &nbsp;|&nbsp; <code>mos_wav2vec2</code> &nbsp;|&nbsp; <code>mos_wav2vec2_local</code> &nbsp;|&nbsp; <code>mos_wav2vec2_url</code> &nbsp;|&nbsp; <code>ms_hubert</code> &nbsp;|&nbsp; <code>multires_hubert_base</code> &nbsp;|&nbsp; <code>multires_hubert_custom</code> &nbsp;|&nbsp; <code>multires_hubert_large</code> &nbsp;|&nbsp; <code>multires_hubert_local</code> &nbsp;|&nbsp; <code>multires_hubert_multilingual_base</code> &nbsp;|&nbsp; <code>multires_hubert_multilingual_large400k</code> &nbsp;|&nbsp; <code>multires_hubert_multilingual_large600k</code> &nbsp;|&nbsp; <code>npc</code> &nbsp;|&nbsp; <code>npc_360hr</code> &nbsp;|&nbsp; <code>npc_960hr</code> &nbsp;|&nbsp; <code>npc_local</code> &nbsp;|&nbsp; <code>npc_url</code> &nbsp;|&nbsp; <code>pase_local</code> &nbsp;|&nbsp; <code>pase_plus</code> &nbsp;|&nbsp; <code>pase_url</code> &nbsp;|&nbsp; <code>passt_base</code> &nbsp;|&nbsp; <code>passt_base20sec</code> &nbsp;|&nbsp; <code>passt_base2level</code> &nbsp;|&nbsp; <code>passt_base2levelmel</code> &nbsp;|&nbsp; <code>passt_base30sec</code> &nbsp;|&nbsp; <code>passt_hop100base</code> &nbsp;|&nbsp; <code>passt_hop100base2lvl</code> &nbsp;|&nbsp; <code>passt_hop100base2lvlmel</code> &nbsp;|&nbsp; <code>passt_hop160base</code> &nbsp;|&nbsp; <code>passt_hop160base2lvl</code> &nbsp;|&nbsp; <code>passt_hop160base2lvlmel</code> &nbsp;|&nbsp; <code>spectrogram</code> &nbsp;|&nbsp; <code>ssast_frame_base</code> &nbsp;|&nbsp; <code>ssast_patch_base</code> &nbsp;|&nbsp; <code>stft_mag</code> &nbsp;|&nbsp; <code>tera</code> &nbsp;|&nbsp; <code>tera_100hr</code> &nbsp;|&nbsp; <code>tera_960hr</code> &nbsp;|&nbsp; <code>tera_fbankBase_T_F_AdamW_b32_200k_100hr</code> &nbsp;|&nbsp; <code>tera_local</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_AdamW_b32_1m_960hr</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_AdamW_b32_1m_960hr_drop1</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_AdamW_b32_1m_960hr_seq3k</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_AdamW_b32_200k_100hr</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_M_AdamW_b32_1m_960hr_drop1</code> &nbsp;|&nbsp; <code>tera_logMelBase_T_F_M_AdamW_b32_200k_100hr</code> &nbsp;|&nbsp; <code>tera_url</code> &nbsp;|&nbsp; <code>timit_posteriorgram</code> &nbsp;|&nbsp; <code>unispeech_sat</code> &nbsp;|&nbsp; <code>unispeech_sat_base</code> &nbsp;|&nbsp; <code>unispeech_sat_base_plus</code> &nbsp;|&nbsp; <code>unispeech_sat_large</code> &nbsp;|&nbsp; <code>unispeech_sat_local</code> &nbsp;|&nbsp; <code>unispeech_sat_url</code> &nbsp;|&nbsp; <code>vggish</code> &nbsp;|&nbsp; <code>vq_apc</code> &nbsp;|&nbsp; <code>vq_apc_360hr</code> &nbsp;|&nbsp; <code>vq_apc_960hr</code> &nbsp;|&nbsp; <code>vq_apc_url</code> &nbsp;|&nbsp; <code>vq_wav2vec</code> &nbsp;|&nbsp; <code>vq_wav2vec_custom</code> &nbsp;|&nbsp; <code>vq_wav2vec_gumbel</code> &nbsp;|&nbsp; <code>vq_wav2vec_kmeans</code> &nbsp;|&nbsp; <code>vq_wav2vec_kmeans_roberta</code> &nbsp;|&nbsp; <code>wav2vec</code> &nbsp;|&nbsp; <code>wav2vec2</code> &nbsp;|&nbsp; <code>wav2vec2_base_960</code> &nbsp;|&nbsp; <code>wav2vec2_base_s2st_en_librilight</code> &nbsp;|&nbsp; <code>wav2vec2_base_s2st_es_voxpopuli</code> &nbsp;|&nbsp; <code>wav2vec2_conformer_large_s2st_en_librilight</code> &nbsp;|&nbsp; <code>wav2vec2_conformer_large_s2st_es_voxpopuli</code> &nbsp;|&nbsp; <code>wav2vec2_conformer_relpos</code> &nbsp;|&nbsp; <code>wav2vec2_conformer_rope</code> &nbsp;|&nbsp; <code>wav2vec2_custom</code> &nbsp;|&nbsp; <code>wav2vec2_large_960</code> &nbsp;|&nbsp; <code>wav2vec2_large_ll60k</code> &nbsp;|&nbsp; <code>wav2vec2_large_lv60_cv_swbd_fsh</code> &nbsp;|&nbsp; <code>wav2vec2_large_voxpopuli_100k</code> &nbsp;|&nbsp; <code>wav2vec2_local</code> &nbsp;|&nbsp; <code>wav2vec2_url</code> &nbsp;|&nbsp; <code>wav2vec_custom</code> &nbsp;|&nbsp; <code>wav2vec_large</code> &nbsp;|&nbsp; <code>wav2vec_local</code> &nbsp;|&nbsp; <code>wav2vec_url</code> &nbsp;|&nbsp; <code>wavlablm_ek_40k</code> &nbsp;|&nbsp; <code>wavlablm_mk_40k</code> &nbsp;|&nbsp; <code>wavlablm_ms_40k</code> &nbsp;|&nbsp; <code>wavlm</code> &nbsp;|&nbsp; <code>wavlm_base</code> &nbsp;|&nbsp; <code>wavlm_base_plus</code> &nbsp;|&nbsp; <code>wavlm_large</code> &nbsp;|&nbsp; <code>wavlm_local</code> &nbsp;|&nbsp; <code>wavlm_url</code> &nbsp;|&nbsp; <code>xls_r_1b</code> &nbsp;|&nbsp; <code>xls_r_2b</code> &nbsp;|&nbsp; <code>xls_r_300m</code> &nbsp;|&nbsp; <code>xlsr_53</code></td>
-</tr>
+   * `wavlm_large`
+   * `mae_ast_frame`
+   * `npc_960hr`
+   * *(hundreds more available — see full list below)*
 
-</table>
+2. **Backend – Classifier Models**
+   Models trained on extracted SSL embeddings:
 
-
-* **Classifier models:**
-
-  * `aasist`
-  * `sls`
-  * `xlsrmamba`
-
-* Switch SSL extractor or model via config file or command-line
-
-* Simple commands for training and evaluation
+   * `aasist`
+   * `sls`
+   * `xlsrmamba`
 
 ---
 
-## Quick Start
+## ✨ Features
 
-### 1. Configure
+* **Multiple backend architectures**: AASIST, SLS, XLSR-Mamba.
+* **Large variety of SSL frontends**: WavLM, MAE-AST, NPC, HuBERT, wav2vec 2.0, Data2Vec, etc.
+* **Simple CLI & YAML config system** for quick model switching.
+* **Training & evaluation pipelines** in `main.py` / `main2.py`.
+* **Automatic checkpoint saving** and organized output directories.
 
-**YAML file (`config.yaml`):**
+---
 
-```yaml
-ssl_feature: wavlm_large    # choose any from the list above
-model_arch: aasist          # choose: aasist | sls | xlsrmamba
-mode: train                 # train or eval
-save_dir: output/models     # where to save models
-# other settings: batch size, learning rate, etc.
+## 📂 Repo Structure
+
+```
+.
+├── main.py                 # Training & evaluation script
+├── config.py               # Global config handling
+├── models/                 # Classifier architectures
+├── ssl_models/             # SSL feature extraction modules
+├── protocols/              # Protocol files for datasets
+├── requirements.txt        # Python dependencies
+└── utils/                  # Helper functions
 ```
 
-**Or via CLI flags (model architecture is set in `config.yaml`):**
+---
 
-* **Example command**
+## 🛠 Supported Models
+
+### Classifiers
+
+```
+aasist | sls | xlsrmamba
+```
+
+### SSL Feature Extractors
+
+Includes common options like:
+
+```
+wavlm_large | mae_ast_frame | npc_960hr | hubert | wav2vec2_large_ll60k | data2vec_large_ll60k | tera
+```
+
+<details>
+<summary>📜 Show All SSL Features</summary>
+
+```
+apc | apc_360hr | apc_960hr | apc_local | apc_url | ast | audio_albert | audio_albert_960hr | audio_albert_local | audio_albert_logMelBase_T_share_AdamW_b32_1m_960hr_drop1 | audio_albert_url | baseline | baseline_local | byol_a_1024 | byol_a_2048 | byol_a_512 | byol_s_cvt | byol_s_default | byol_s_resnetish34 | contentvec | contentvec_km100 | contentvec_km500 | cpc_local | cpc_url | customized_upstream | cvhubert | data2vec | data2vec_base_960 | data2vec_custom | data2vec_large_ll60k | data2vec_local | data2vec_url | decoar | decoar2 | decoar2_custom | decoar2_local | decoar2_url | decoar_custom | decoar_layers | decoar_layers_custom | decoar_layers_local | decoar_layers_url | decoar_local | decoar_url | discretebert | distilhubert | distilhubert_base | distiller_local | distiller_url | espnet_hubert_base_iter0 | espnet_hubert_base_iter1 | espnet_hubert_custom | espnet_hubert_large_gs_ll60k | espnet_hubert_local | fbank | fbank_no_cmvn | hf_hubert_custom | hf_wav2vec2_custom | hubert | hubert_base | hubert_base_robust_mgr | hubert_custom | hubert_large_ll60k | hubert_local | hubert_url | lighthubert | lighthubert_base | lighthubert_local | lighthubert_small | lighthubert_stage1 | lighthubert_url | linear | mae_ast_frame | mae_ast_local | mae_ast_patch | mae_ast_url | mel | mfcc | mhubert_base_vp_en_es_fr_it3 | mockingjay | mockingjay_100hr | mockingjay_960hr | mockingjay_local | mockingjay_logMelBase_T_AdamW_b32_1m_960hr | mockingjay_logMelBase_T_AdamW_b32_1m_960hr_drop1 | mockingjay_logMelBase_T_AdamW_b32_1m_960hr_seq3k | mockingjay_logMelBase_T_AdamW_b32_200k_100hr | mockingjay_logMelLinearLarge_T_AdamW_b32_500k_360hr_drop1 | mockingjay_origin | mockingjay_url | modified_cpc | mos_apc | mos_apc_local | mos_apc_url | mos_tera | mos_tera_local | mos_tera_url | mos_wav2vec2 | mos_wav2vec2_local | mos_wav2vec2_url | ms_hubert | multires_hubert_base | multires_hubert_custom | multires_hubert_large | multires_hubert_local | multires_hubert_multilingual_base | multires_hubert_multilingual_large400k | multires_hubert_multilingual_large600k | npc | npc_360hr | npc_960hr | npc_local | npc_url | pase_local | pase_plus | pase_url | passt_base | passt_base20sec | passt_base2level | passt_base2levelmel | passt_base30sec | passt_hop100base | passt_hop100base2lvl | passt_hop100base2lvlmel | passt_hop160base | passt_hop160base2lvl | passt_hop160base2lvlmel | spectrogram | ssast_frame_base | ssast_patch_base | stft_mag | tera | tera_100hr | tera_960hr | tera_fbankBase_T_F_AdamW_b32_200k_100hr | tera_local | tera_logMelBase_T_F_AdamW_b32_1m_960hr | tera_logMelBase_T_F_AdamW_b32_1m_960hr_drop1 | tera_logMelBase_T_F_AdamW_b32_1m_960hr_seq3k | tera_logMelBase_T_F_AdamW_b32_200k_100hr | tera_logMelBase_T_F_M_AdamW_b32_1m_960hr_drop1 | tera_logMelBase_T_F_M_AdamW_b32_200k_100hr | tera_url | timit_posteriorgram | unispeech_sat | unispeech_sat_base | unispeech_sat_base_plus | unispeech_sat_large | unispeech_sat_local | unispeech_sat_url | vggish | vq_apc | vq_apc_360hr | vq_apc_960hr | vq_apc_url | vq_wav2vec | vq_wav2vec_custom | vq_wav2vec_gumbel | vq_wav2vec_kmeans | vq_wav2vec_kmeans_roberta | wav2vec | wav2vec2 | wav2vec2_base_960 | wav2vec2_base_s2st_en_librilight | wav2vec2_base_s2st_es_voxpopuli | wav2vec2_conformer_large_s2st_en_librilight | wav2vec2_conformer_large_s2st_es_voxpopuli | wav2vec2_conformer_relpos | wav2vec2_conformer_rope | wav2vec2_custom | wav2vec2_large_960 | wav2vec2_large_ll60k | wav2vec2_large_lv60_cv_swbd_fsh | wav2vec2_large_voxpopuli_100k | wav2vec2_local | wav2vec2_url | wav2vec_custom | wav2vec_large | wav2vec_local | wav2vec_url | wavlablm_ek_40k | wavlablm_mk_40k | wavlablm_ms_40k | wavlm | wavlm_base | wavlm_base_plus | wavlm_large | wavlm_local | wavlm_url | xls_r_1b | xls_r_2b | xls_r_300m | xlsr_53
+```
+
+</details>
+
+
+## ⚡ Quick Start
+
+### 1️⃣ Installation
 
 ```bash
-python main.py --batch_size 14 --num_epochs 50 --lr 1e-6 --weight_decay 1e-4 \
-  --ssl_feature <your_chosen_feature> --seed 1234 --emb_size 256 --num_encoders 12
+git clone <repo_url>
+cd ssl-antispoofing
+pip install -r requirements.txt
 ```
 
-### 2. Training
+### 2️⃣ Configure
+
+Edit `config.yampyl`:
+
+```config.py
+ssl_feature: wavlm_large
+model_arch: aasist
+mode: train
+save_dir: output/models
+batch_size: 14
+learning_rate: 1e-6
+num_epochs: 50
+```
+
+Or override via CLI:
 
 ```bash
-python main2.py --config config.yaml
+# Example command
+python main.py \
+  --batch_size 14 \
+  --num_epochs 50 \
+  --lr 1e-6 \
+  --weight_decay 1e-4 \
+  --ssl_feature wavlm_large \
+  --seed 1234 \
+  --emb_size 256 \
+  --num_encoders 12
 ```
 
-### 3. Evaluation
+### 3️⃣ Train
 
 ```bash
-python main2.py \
-  --config config.yaml \
-  --mode eval \
-  --ckpt output/models/your_model.pth
+python main.py --batch_size 14 --num_epochs 50 --lr 1e-6 --weight_decay 1e-4 --ssl_feature wavlm_large --seed 1234 --emb_size 256 --num_encoders 12
+```
+
+### 4️⃣ Evaluate
+
+#### Set the evaluation dataset in config.py at dev 
+```bash
+python main.py --model_path output/models/your_model.pth
 ```
 
 ---
 
-## Switching Components
+## 🔄 Switching Components
 
-* **Change SSL feature extractor:**
+**Change SSL Extractor**
 
-  * In `config.yaml`: set `ssl_feature` to one of the names in the list above.
-  * Or add `--ssl_feature <name>` on the CLI.
 
-* **Change classifier model:**
+```bash
+--ssl_feature mae_ast_frame
+```
+---
 
-  * In `config.yaml`: set `model_arch` to `aasist`, `sls`, or `xlsrmamba`.
-  * Or add `--model_arch <name>` on the CLI.
+## 📂 Outputs
+
+* **Checkpoints** → stored in `save_dir`
+* **Logs** → stored during training/evaluation
 
 ---
 
-## Logs & Outputs
+## 📚 References
 
-* **Model checkpoints:** saved under the directory specified by `save_dir`.
-
----
-
-## References (official repos & papers)
-
-* S3PRL (toolkit): [https://github.com/s3prl/s3prl](https://github.com/s3prl/s3prl)
-* WavLM: “WavLM: Large-Scale Self-Supervised Pre-Training for Full Stack Speech Processing.”
-* HuBERT: “HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units.”
-* wav2vec 2.0: “A Framework for Self-Supervised Learning of Speech Representations.”
-* Data2Vec (audio): “Data2Vec: A General Framework for Self-supervised Learning in Speech, Vision and Language.”
-* BYOL-A: “BYOL for Audio: Self-Supervised Learning for General-Purpose Audio Representation.”
-* TERA: “Self-Supervised Learning of Transformer Encoder Representation for Speech.”
-* Mockingjay: “Unsupervised Speech Representation Learning with Deep Bidirectional Transformer Encoders.”
-* SSAST: “Self-Supervised Audio Spectrogram Transformer.”
-* PaSST: “Efficient Training of Audio Transformers with Patchout.”
-* UniSpeech-SAT: “Universal Speech Representation Learning with Speaker Aware Pre-Training.”
-* XLS-R / XLSR-53: Cross-lingual self-supervised models based on wav2vec 2.0.
-* DeCoAR / DeCoAR 2.0: “Deep Contextualized Acoustic Representations.”
-* PASE+: “Multi-task Self-Supervised Learning for Robust Speech Recognition (PASE+).”
-* VQ-wav2vec: “Self-Supervised Learning of Discrete Speech Representations.”
-* ContentVec: “An Improved Self-Supervised Speech Representation by Disentangling Speakers.”
-* LightHuBERT / DistilHuBERT: compression/distillation variants of HuBERT.
+* [S3PRL](https://github.com/s3prl/s3prl)
+* WavLM, HuBERT, wav2vec 2.0, Data2Vec, BYOL-A, TERA, Mockingjay, SSAST, PaSST, UniSpeech-SAT, XLS-R, DeCoAR, PASE+, VQ-wav2vec, ContentVec, LightHuBERT, DistilHuBERT, etc.
 
 ---
+
