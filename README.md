@@ -84,7 +84,7 @@ apc | apc_360hr | apc_960hr | apc_local | apc_url | ast | audio_albert | audio_a
 ### 1️⃣ Installation
 
 ```bash
-git clone <repo_url>
+git clone https://github.com/saiadupa/SSL-based-anti-spoofing-pipeline-for-audio.git
 cd ssl-antispoofing
 pip install -r requirements.txt
 ```
