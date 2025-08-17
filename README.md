@@ -91,7 +91,7 @@ pip install -r requirements.txt
 
 ### 2️⃣ Configure
 
-Edit `config.yampyl`:
+Edit `config.py`:
 
 ```config.py
 ssl_feature: wavlm_large
@@ -153,6 +153,8 @@ python main.py --model_path output/models/your_model.pth
 ## 📚 References
 
 * [S3PRL](https://github.com/s3prl/s3prl)
+* [Automatic speaker verification spoofing and deepfake detection using wav2vec 2.0 and data augmentation](https://arxiv.org/abs/2202.12233)
+* [Github](https://github.com/TakHemlata/SSL_Anti-spoofing/)
 * WavLM, HuBERT, wav2vec 2.0, Data2Vec, BYOL-A, TERA, Mockingjay, SSAST, PaSST, UniSpeech-SAT, XLS-R, DeCoAR, PASE+, VQ-wav2vec, ContentVec, LightHuBERT, DistilHuBERT, etc.
 
 ---
